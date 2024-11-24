@@ -27,7 +27,7 @@ def create_connection():
             database=os.getenv("DB_NAME"),
             port=int(os.getenv("DB_PORT")),
             ssl={
-                "ca": "/path/to/your/ca.crt"  # Replace with the correct path to the CA certificate
+                "ca": "static/ca.crt"  # Replace with the correct path to the CA certificate
             },
             cursorclass=pymysql.cursors.DictCursor
         )
