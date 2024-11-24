@@ -15,16 +15,17 @@ app.secret_key = 'your_secret_key'
 
 
 def create_connection():
-    host = "SkarkWeb.mysql.pythonanywhere-services.com"
-    root = "SkarkWeb"
-    pass_in = "#Ranbir195"
-    db = "SkarkWeb$Skark_bank"
+    host = "skarkweb-superdevil195-3d34.b.aivencloud.com"
+    root = "avnadmin"
+    pass_in = "AVNS_3rc4h1EACP_L5ZOnCrc"  
+    db = "defaultdb"
+    port = 15779
+    ssl_cert_path = r"\static\ca.crt"  
 
     connection = pymysql.connect(
         host=host,
         user=root,
         password=pass_in,
-        port=3306,
         database=db,
         cursorclass=pymysql.cursors.DictCursor
     )
