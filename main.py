@@ -2411,4 +2411,4 @@ def get_profile_exit():
 if __name__ == '__main__':
     create_tables()
     load_data()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
