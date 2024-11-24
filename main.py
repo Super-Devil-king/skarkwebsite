@@ -753,7 +753,7 @@ def get_response():
                 username = session['username']
 
                 query = "SELECT mPin FROM UserData WHERE Username = %s"
-                cursor.execute(query, (username,))
+                cursor.execute(query, (username))
                 user_mpin = cursor.fetchone()['mPin']
 
                 if user_request.lower() in ['1', 'deposit']:
@@ -825,7 +825,7 @@ def get_response():
                     session['state'] = 'transaction_menu'
                 else:
                     query = "SELECT mPin, Balance FROM UserData WHERE Username = %s"
-                    cursor.execute(query, (username,))
+                    cursor.execute(query, (username))
                     user_data = cursor.fetchone()
                     if user_request == user_data['mPin']:
                         new_balance = float(
@@ -873,7 +873,7 @@ def get_response():
                     session['state'] = 'transaction_menu'
                 else:
                     query = "SELECT mPin, Balance FROM UserData WHERE Username = %s"
-                    cursor.execute(query, (username,))
+                    cursor.execute(query, (username))
                     user_data = cursor.fetchone()
                     if user_request == user_data['mPin']:
                         new_balance = float(
@@ -907,7 +907,7 @@ def get_response():
                     session['state'] = 'transaction_menu'
                 else:
                     query = "SELECT * FROM UserData WHERE Username = %s"
-                    cursor.execute(query, (recipient_username,))
+                    cursor.execute(query, (recipient_username))
                     recipient_data = cursor.fetchone()
 
                     if not recipient_data:
@@ -946,7 +946,7 @@ def get_response():
                 sender_data = cursor.fetchone()
 
                 cursor.execute(
-                    "SELECT Balance FROM UserData WHERE Username = %s", (recipient_username,))
+                    "SELECT Balance FROM UserData WHERE Username = %s", (recipient_username))
                 recipient_data = cursor.fetchone()
 
                 if user_request.lower() in ["exit", "e"]:
@@ -1139,7 +1139,7 @@ def get_response():
             elif state == "verify_password":
                 username = session['username']
                 cursor.execute(
-                    "SELECT Password FROM UserData WHERE Username = %s", (username,))
+                    "SELECT Password FROM UserData WHERE Username = %s", (username))
                 pass_in = cursor.fetchone()['Password']
 
                 if user_request.lower() in ["exit", "e"]:
@@ -1157,7 +1157,7 @@ def get_response():
 
                 else:
                     cursor.execute(
-                        "SELECT mPin FROM UserData WHERE Username = %s", (username,))
+                        "SELECT mPin FROM UserData WHERE Username = %s", (username))
                     user_mpin_db = cursor.fetchone()['mPin']
 
                     if user_mpin_db is None or user_mpin_db == "":
@@ -1257,10 +1257,10 @@ def get_response():
             elif state == 'profile':
                 username = session['username']
                 cursor.execute(
-                    "SELECT * FROM UserData WHERE Username = %s", (username,))
+                    "SELECT * FROM UserData WHERE Username = %s", (username))
                 mPin = cursor.fetchone()["mPin"]
                 cursor.execute(
-                    "SELECT Password FROM UserData WHERE Username = %s", (username,))
+                    "SELECT Password FROM UserData WHERE Username = %s", (username))
                 password = cursor.fetchone()["Password"]
                 if user_request == mPin:
 
@@ -1310,7 +1310,7 @@ def get_response():
                 if user_request:
                     answers.append(user_request.lower())
                     cursor.execute(
-                        "SELECT Mobile_Number FROM UserFeedback WHERE Username = %s", (username,))
+                        "SELECT Mobile_Number FROM UserFeedback WHERE Username = %s", (username))
                     m_number = cursor.fetchone()["Mobile_Number"]
                     if user_request.lower() in ["exit", "e"]:
                         menu = get_user_menu()
@@ -1375,7 +1375,7 @@ def get_response():
                     query = """
                         SELECT u.*, f.* FROM UserData u JOIN UserFeedback f ON u.Username = f.Username WHERE u.Username = %s
                     """
-                    cursor.execute(query, (username,))
+                    cursor.execute(query, (username))
                     user_data = cursor.fetchone()
 
                     if user_data is None:
