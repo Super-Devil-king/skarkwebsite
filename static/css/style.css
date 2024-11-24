@@ -1,0 +1,790 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    color: #0f0f0f;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #ffffff, #41B06E 200%, #ffffff);
+    flex-direction: column;
+    position: relative;
+    animation: fadeInBackground 2s ease-in-out;
+}
+
+@keyframes fadeInBackground {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#mode-switch-container {
+    position: fixed;
+    top: 20px;
+    /*z-index: 10;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5vh;
+    width: 100vw;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s ease;
+    border-radius: 50px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.3s ease;
+    border-radius: 50%;
+}
+
+/* When checked, the background color and the knob position change */
+input:checked + .slider {
+    background-color: #61c97e;
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+/* Labels for ON/OFF states */
+.label {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    transition: 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    opacity: 0; /* Initially hide both labels */
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+/* Position the OFF and ON labels properly */
+.label-off {
+    left: -50px;
+    color: #000000; /* Red for OFF state */
+}
+
+.label-on {
+    right: -55px;
+    color: #ffffff; /* Green for ON state */
+}
+
+/* When the switch is checked, show the ON label and hide the OFF label */
+input:checked ~ .slider ~ .label-on {
+    opacity: 1; /* Show ON label */
+}
+
+input:not(:checked) ~ .slider ~ .label-off {
+    opacity: 1; /* Show OFF label */
+}
+
+/* For mobile responsiveness */
+@media (max-width: 480px) {
+    .switch {
+        width: 50px;
+        height: 24px;
+    }
+
+    .slider:before {
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+    }
+}
+
+
+#clear-btn,
+#exit-btn {
+    padding: 10px 15px;
+    background-color: #61c97e;
+    color: white;
+    border: 2px solid black;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    position: fixed;
+    top: 10px;
+    /*z-index: 10;*/
+}
+
+#clear-btn {
+    left: 10px;
+}
+
+#exit-btn {
+    right: 10px;
+}
+
+/* Hover effects */
+#clear-btn:hover,
+#exit-btn:hover {
+    background-color: #ff4444;
+    transform: scale(1.1); /* Slightly increased scale for more visual impact */
+    border-color: #ff4444; /* Smooth transition for border color */
+}
+
+a {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: #61c97e;
+}
+
+a:active {
+    color: red;
+}
+
+#title {
+    font-size: 24px;
+    color: #0f0f0f;
+    margin-bottom: 20px;
+    text-align: center;
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+svg.image-1, svg.image-2 {
+    position: fixed;
+    z-index: -10;
+    filter: invert(1);
+}
+
+/* Image 1 (top-right) */
+svg.image-1 {
+    top: 217px;
+    right: 370px;
+    transform: rotate(25deg);
+    width: 150px;
+    height: 150px;
+}
+
+/* Image 2 (bottom-left) */
+svg.image-2 {
+    top: 397px;
+    left: 365px;
+    transform: rotate(210deg);
+    width: 150px;
+    height: 150px;
+}
+
+@media (max-width: 768px) {
+    svg.image-1, svg.image-2 {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (min-width: 768px) {
+    svg.image-1, svg.image-2 {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    svg.image-1, svg.image-2 {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+#chatbox {
+    width: 100%;
+    max-width: 500px;
+    background-color: #f0f0f5;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    max-height: 69vh;
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    border: 3px solid black;
+}
+
+#messages, #menu {
+    flex-grow: 1;
+    padding-right: 1px;
+    margin-bottom: 20px;
+    user-select: none;
+    overflow-y: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+#messages::-webkit-scrollbar {
+    display: none;
+}
+
+.message {
+    padding: 12px 18px;
+    border-radius: 10px;
+    line-height: 1.5;
+    font-size: 14px;
+    word-wrap: break-word;
+    max-width: 80%;
+    opacity: 0;
+    animation: fadeInMessage 0.5s ease-in-out forwards;
+    clear: both;
+}
+
+.small-margin {
+    margin-top: -5px;
+}
+
+@keyframes fadeInMessage {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.message.user-message {
+    background: linear-gradient(135deg, #4e537c, #3d8f55);
+    color: white;
+    float: right;
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.bot-message, .bot-menu {
+    background-color: #61c97e;
+    color: black;
+    float: left;
+    margin-bottom: 5px;
+}
+
+.bot-menu {
+    margin-top: -5px;
+}
+
+input {
+    max-height: 90px;
+    min-height: 40px;
+    width: calc(100% - 50px);
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    resize: none;
+    overflow-y: auto;
+    margin-right: 20px;
+    transition: all 0.3s ease;
+    scrollbar-width: none;
+    background-color: #61c97e;
+    color: white;
+    border: 2px solid black;
+    box-shadow: 0px 0px 5px rgba(97, 201, 126, 0.5);
+
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #61c97e;
+    box-shadow: 0px 0px 5px rgba(97, 201, 126, 0.5);
+}
+
+input::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+input::-webkit-scrollbar {
+    display: none;
+}
+
+button {
+    padding: 10px;
+    background-color: #4e537c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #61c97e;
+    transform: scale(1.05);
+}
+
+.loader-border {
+    position: absolute;
+    top: 2px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 3px solid transparent;
+    border-radius: 15px;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.loader-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #00bfff;
+    position: absolute;
+    animation: moveAlongBorder 4s infinite linear;
+}
+
+@keyframes moveAlongBorder {
+    0% {
+        top: 0;
+        left: 0;
+    }
+
+    25% {
+        top: 0;
+        left: calc(100% - 12px);
+    }
+
+    50% {
+        top: calc(100% - 12px);
+        left: calc(100% - 12px);
+    }
+
+    75% {
+        top: calc(100% - 12px);
+        left: 0;
+    }
+
+    100% {
+        top: 0;
+        left: 0;
+    }
+}
+
+#copyright {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#labelL1 {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 1px;
+    position: fixed;
+    bottom: 140px;
+    left: 5%;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+}
+
+#labelL2 {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 1px;
+    position: fixed;
+    top: 250px;
+    left: 5%;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+}
+
+#labelR1 {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 1px;
+    position: fixed;
+    bottom: 140px;
+    right: 5%;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+#labelR2 {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 1px;
+    position: fixed;
+    top: 225px;
+    right: 5%;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+#version {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: black;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+#hidden-box {
+    position: fixed;
+    top: 60%;
+    left: -200px;
+    width: 250px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    color: rgba(255, 255, 255, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    font-size: 18px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: hidden;
+}
+
+#hidden-box:hover {
+    left: 0;
+    background-color: white;
+    color: black;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+#hidden-box p {
+    margin: 0;
+    padding: 10px 0;
+    font-weight: 600;
+    color: transparent;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 0.5px;
+    text-align: center;
+    transition: color 0.5s ease, transform 0.5s ease;
+    transform: translateY(10px);
+}
+
+#hidden-box:hover p {
+    color: rgba(255, 255, 255, 1);
+    transform: translateY(0);
+}
+
+/* Second hidden box (L2) */
+#hidden-boxL2 {
+    position: fixed;
+    top: 20%;
+    left: -170px;
+    width: 220px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    color: rgba(255, 255, 255, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    font-size: 18px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: hidden;
+}
+
+#hidden-boxL2:hover {
+    left: 0;
+    background-color: white;
+    color: black;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+#hidden-boxL2 p {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    color: transparent;
+    transition: color 0.5s ease;
+}
+
+#hidden-boxL2:hover p {
+    color: white;
+}
+
+/* Third hidden box (R1) */
+#hidden-boxR1 {
+    position: fixed;
+    top: 20%;
+    right: -160px; /* Initially hide off-screen */
+    width: 220px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    color: rgba(255, 255, 255, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    font-size: 18px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: hidden;
+}
+
+#hidden-boxR1:hover {
+    right: 0; /* Slide in from the right */
+    background-color: white;
+    color: black;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+#hidden-boxR1 p {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    color: transparent;
+    transition: color 0.5s ease;
+}
+
+#hidden-boxR1:hover p {
+    color: white;
+}
+
+/* Fourth hidden box (R2) */
+#hidden-boxR2 {
+    position: fixed;
+    top: 60%;
+    right: -140px;
+    width: 200px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    color: rgba(255, 255, 255, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    font-size: 18px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: hidden;
+}
+
+#hidden-boxR2:hover {
+    right: 0;
+    background-color: white;
+    color: black;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+#hidden-boxR2 p {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    color: transparent;
+    transition: color 0.5s ease;
+}
+
+#hidden-boxR2:hover p {
+    color: white;
+}
+
+#chatbox {
+    z-index: 1; /* Lower z-index so that hidden boxes come above */
+}
+
+#hidden-box,
+#hidden-boxL2,
+#hidden-boxR1,
+#hidden-boxR2 {
+    z-index: 5; /* Bring hidden boxes above the chatbox */
+}
+
+#chatbox {
+    z-index: 1;
+}
+
+body.dark-mode {
+    background-color: #0F0F0F;
+    color: #f8f8f2;
+    background: linear-gradient(180deg, #0F0F0F, #005B41 200%, #0F0F0F);
+}
+
+body.dark-mode #chatbox {
+    background-color: #2c2f3c;
+    border: #005B41 2px solid;
+}
+
+body.dark-mode a {
+    color: #61c97e;
+}
+
+body.dark-mode input {
+    background-color: #343848;
+    border: #61c97e 2px solid;
+    color: white;
+}
+
+body.dark-mode button {
+    background-color: #4e537c;
+    color: white;
+}
+
+body.dark-mode button:hover {
+    background-color: #61c97e;
+}
+
+body.dark-mode #hidden-box,
+body.dark-mode #hidden-boxL2,
+body.dark-mode #hidden-boxR1,
+body.dark-mode #hidden-boxR2
+{
+    background-color: #2c2f3c;
+    color: #2c2f3c;
+    border: 2px solid #61c97e;
+}
+
+body.dark-mode #hidden-box:hover,
+body.dark-mode #hidden-boxL2:hover,
+body.dark-mode #hidden-boxR1:hover,
+body.dark-mode #hidden-boxR2:hover {
+    color:  white;
+}
+
+body.dark-mode #labelL1,
+body.dark-mode #labelL2,
+body.dark-mode #labelR1,
+body.dark-mode #labelR2 {
+    color: #61c97e;
+}
+
+body.dark-mode #title {
+    color: #61c97e;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode #version {
+    color: #61c97e;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode #copyright {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode svg.image-1, body.dark-mode svg.image-2 {
+    position: fixed;
+    z-index: -10;
+    filter: invert(0); /* Inverts colors */
+}
+
+body.dark-mode #clear-btn,
+body.dark-mode #exit-btn {
+    border: white 2px solid;
+}
+body.dark-mode a:hover {
+    color: white;
+}
+@media screen and (max-width: 768px) {
+    body {
+        transform: scale(0.8);
+        transform-origin: top;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        transform: scale(0.6);
+        transform-origin: top;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    body {
+        transform: scale(0.5);
+        transform-origin: top;
+    }
+}
