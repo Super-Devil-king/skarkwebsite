@@ -14,35 +14,35 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 
+import os
+import pymysql
+
 def create_connection():
-    host = "skarkweb-superdevil195-3d34.b.aivencloud.com"
-    root = "avnadmin"
-    pass_in = "AVNS_3rc4h1EACP_L5ZOnCrc"  
-    db = "defaultdb"
-    port = 15779
-    ssl_cert_path = r"\static\ca.crt"  
-
-    connection = pymysql.connect(
-        host=host,
-        user=root,
-        password=pass_in,
-        database=db,
-        cursorclass=pymysql.cursors.DictCursor
-    )
-
     try:
+        # Connect to the database
+        connection = pymysql.connect(
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME"),
+            port=int(os.getenv("DB_PORT")),
+            ssl={
+                "ca": "/path/to/your/ca.crt"  # Replace with the correct path to the CA certificate
+            },
+            cursorclass=pymysql.cursors.DictCursor
+        )
+        # Use the database
+        db_name = os.getenv("DB_NAME")  # Getting the DB name from environment variable
         with connection.cursor() as cursor:
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+            cursor.execute(f"USE {db_name}")
 
-            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db}")
-            cursor.execute(f"USE {db}")
-
-        connection.commit()
-        connection.select_db(db)
+        connection.commit()  # Commit any changes
+        return connection  # Return the connection object
 
     except Exception as e:
-        f"Error: {e}"
-
-    return connection
+        print(f"Error: {e}")  # Print the error for debugging
+        return None  # Return None if the connection fails
 
 
 def create_tables():
